@@ -1,20 +1,33 @@
 package run.halo.contrib.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import run.halo.contrib.model.ContributeRequest;
 import run.halo.contrib.service.ContributeService;
 
-@RestController
-@RequestMapping("/contribute")
+@Controller
 @RequiredArgsConstructor
+@RequestMapping("/contribute")
 public class ContributeController {
 
     private final ContributeService contributeService;
 
+    // 👉 前端页面
+    @GetMapping
+    public String contributePage() {
+        return "contribute"; // 对应 resources/templates/contribute.html
+    }
+
+    // 👉 表单提交
     @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<String> contribute(
             @RequestParam String title,
